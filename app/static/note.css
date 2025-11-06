@@ -302,8 +302,7 @@ font-size: 1.05rem; /* Input size increased */
 background: #fff;
 box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
 transition: all 0.3s ease;
-color: black;
-}
+color: #000000 !important; /* Force text color to black */}
 
 .signin-box button, .signup button {
 background: linear-gradient(135deg, #845ec2, #00c9a7);
