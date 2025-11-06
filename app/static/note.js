@@ -35,8 +35,6 @@ function initializeNoteStyles() {
         // Apply the base corner class.
         note.classList.add(selectedCorner);
         
-        // *** Positioning logic REMOVED - Flexbox handles alignment ***
-
         // 3. Staggered Entrance Animation Delay (for noteSwing)
         const baseDelay = index * 0.1; 
         const randomExtraDelay = Math.random() * 0.2; 
@@ -46,25 +44,47 @@ function initializeNoteStyles() {
         note.style.animationDelay = `${totalEntranceDelay}s`;
 
         // 4. Floating Effect Delay: Start the floating animation after the swing finishes
-        // CRITICAL UPDATE: Swing animation is 2.2s long
         const ANIMATION_DURATION = 2.2; 
         const FLOAT_START_DELAY = ANIMATION_DURATION + 0.3 + totalEntranceDelay; 
         
         setTimeout(() => {
             // Add the 'floating' class to start the float-with-tilt animation
-            // The CSS will target: .corner-X-Y.floating
             note.classList.add('floating'); 
         }, FLOAT_START_DELAY * 1000); // Convert seconds to milliseconds
     });
 }
 
+// 🌟 NEW FUNCTION: Stops the continuous floating animation on hover 🌟
+function initializeHoverFix() {
+    const notes = document.querySelectorAll('.note-box');
+    
+    notes.forEach(note => {
+        // Mouse Enter: PAUSE the continuous floating animation
+        note.addEventListener('mouseenter', () => {
+            note.classList.remove('floating');
+            
+            // OPTIONAL: Manually apply the pop-out transform if CSS hover is slow
+            // note.style.transform = 'translateY(-8px) scale(1.03)';
+        });
+        
+        // Mouse Leave: RESUME the continuous floating animation
+        note.addEventListener('mouseleave', () => {
+            note.classList.add('floating');
+            
+            // OPTIONAL: Clear the manual transform if used above
+            // note.style.transform = ''; 
+        });
+    });
+}
+
 // ----------------------------------------------------
-// --- Core DOM Loading and Event Handlers (Original Code) ---
+// --- Core DOM Loading and Event Handlers ---
 // ----------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", () => {
     // 🌟 Initialize the new note styles/animations
     initializeNoteStyles(); 
+    initializeHoverFix(); // 🌟 NEW CALL TO FIX HOVER CONFLICT 🌟
     
     const container = document.querySelector(".notes-container");
     if (!container) {
