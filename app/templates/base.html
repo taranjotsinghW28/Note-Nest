@@ -6,32 +6,35 @@
       Document
     {% endblock %}
   </title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
   <link rel="stylesheet" href="{{ url_for('static', filename='note.css') }}">
-      <link rel="stylesheet" href="../static/note.css">
-
+  
 </head>
 <body>
   <header>
     <div class="head">
       <img src="{{ url_for('static', filename='note.img/Gemini_Generated_Image_sle4qnsle4qnsle4.png') }}"
-           style="height: 90px; width: 100px; border-radius: 15px;">
+            style="height: 90px; width: 100px; border-radius: 15px;">
       <h1>Note Nest</h1>
     </div>
 
-    <!-- 🩵 Nav moved outside -->
     <nav>
       <a href="{{ url_for('note.home') }}">Home</a>
       <a href="{{ url_for('note.add_note') }}">New Note</a>
       <a href="{{ url_for('auth.logout') }}">Log Out</a>
     </nav>
   </header>
- {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-                <div class="flash-message">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+  
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="flash-message">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+  {% endwith %}
+  
   {% block content %}
   {% endblock %}
 
@@ -42,5 +45,3 @@
 
 </body>
 </html>
-
-
