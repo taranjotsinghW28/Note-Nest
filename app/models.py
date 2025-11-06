@@ -7,7 +7,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     Username = db.Column(db.String(20), unique=True, nullable=False)
     Email = db.Column(db.String(40), unique=True, nullable=False)
-    password_hash = db.Column(db.String(120))
+    password_hash = db.Column(db.String(1200))
 
     tasks = db.relationship("Note", backref="author", lazy=True)
 
