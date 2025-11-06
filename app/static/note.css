@@ -1,7 +1,7 @@
 /* =========================
    Theme A — Calmer Cotton Candy (Violet + Blue)
    Full site CSS (all pages)
-   FINAL VERSION: Stable Layout, Persistent Float-Tilt, Dramatic Swing
+   FINAL VERSION: Stable Layout, Persistent Float-Tilt, Fixed Hover Logic
 ========================= */
 
 /* Reset & base */
@@ -96,7 +96,7 @@ border-radius: 16px;
 position: relative;
 transform-origin: center top;
 
-/* CRITICAL: Bounce Entrance Animation */
+/* CRITICAL: Swing Entrance Animation */
 animation: noteSwing 2.2s cubic-bezier(.25, 1.2, .8, 1.2) forwards;
 
 width: 260px;
@@ -105,7 +105,7 @@ width: 260px;
 min-height: 100px;
 max-height: 100px;
 overflow: hidden;
-/* 🌟 Updated transition for smooth hover/pop-out */
+/* 🌟 CRITICAL: Use 'all' for smooth height changes and fast transform reset */
 transition: all 0.3s ease-out, box-shadow 0.3s ease-out;
 
 padding: 20px;
@@ -115,10 +115,10 @@ z-index: 10;
 }
 
 .note-box:hover {
-/* 💥 POP-OUT EFFECT IMPLEMENTED 💥 */
-transform: translateY(-8px) scale(1.03); /* Lifts and slightly enlarges the card */
-box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3); /* Deeper shadow for depth */
-z-index: 20;
+/* 💥 FIX: Force the desired transform/lift and override any continuous animation */
+transform: translateY(-8px) scale(1.03) !important; /* Lifts and slightly enlarges the card */
+box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3) !important; /* Deeper shadow for depth */
+z-index: 99; /* Ensure it overlaps everything else when hovered */
 }
 
 /* 🌟 Expanded State (Smoothly increases max-height AND width) */
@@ -350,14 +350,7 @@ box-shadow: 0 -6px 20px rgba(0,0,0,0.35);
 margin-top:auto;
 }
 
-/* --------------------
-ANIMATIONS & CORNER PLACEMENT (FINAL)
--------------------- */
 
-/* CRITICAL: Base corner classes must be empty of static transform */
-.corner-top-left, .corner-top-right, .corner-bottom-left, .corner-bottom-right {
-/* NO static transform here! */
-}
 
 /* 1. Dramatic Swing Entrance (2.2s duration) */
 @keyframes noteSwing {
@@ -415,4 +408,3 @@ header {padding:12px 14px;}
 .header-center h1 {font-size:20px;}
 .signin-box, .signup {width:92%;padding:20px;}
 }
-/* This command looks fine now */
