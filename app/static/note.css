@@ -408,3 +408,13 @@ header {padding:12px 14px;}
 .header-center h1 {font-size:20px;}
 .signin-box, .signup {width:92%;padding:20px;}
 }
+
+.note-box:hover {
+    /* 💥 CRITICAL FIX: Stop all background animations instantly 💥 */
+    animation: none !important;
+
+    /* Now apply the desired static pop-out effect */
+    transform: translateY(-8px) scale(1.03) !important; 
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3) !important;
+    z-index: 99;
+}
