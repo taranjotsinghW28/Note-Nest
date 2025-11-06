@@ -1,0 +1,402 @@
+/* =========================
+Theme A — Calmer Cotton Candy (Violet + Blue)
+Full site CSS (all pages)
+FINAL VERSION: Content-Aware Height, Stable Layout, Smooth Animations, Fixed Form Sizing
+========================= */
+
+/* Reset & base */
+* {box-sizing: border-box;margin:0;padding:0;}
+html,body {
+height:100%;
+font-family:"Poppins",sans-serif;
+background-color: #F0FFF0;
+color: #1b1b1b;
+-webkit-font-smoothing:antialiased;
+-moz-osx-font-smoothing:grayscale;
+}
+
+/* Layout for full height and sticky footer */
+body {
+display:flex;
+flex-direction:column; /* Makes footer stick to the bottom */
+}
+main {
+flex:1; /* Allows main content to grow and push footer down */
+padding:28px 18px;
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+
+/* Palette variables */
+:root{
+--bg-1: #161427;
+--panel: #1f2138;
+--accent1: #7b5cff;
+--accent2: #3aa4ff;
+--accent3: #ff80d0;
+--muted: #9ea7c5;
+--glass: rgba(255,255,255,0.03);
+--card-radius: 12px;
+--shadow-strong: 0 18px 48px rgba(6,6,16,0.6);
+--card-elev: 0 10px 30px rgba(6,6,16,0.6);
+}
+
+/* --------------------
+Header (Unchanged)
+-------------------- */
+header {
+width:100%;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:16px;
+padding:14px 28px;
+background: #F77E86;
+color:#fff;
+box-shadow: 0 6px 22px rgba(0,0,0,0.25);
+border-bottom-left-radius: 10px;
+border-bottom-right-radius:10px;
+}
+.head {display:flex;align-items:center;gap:14px;}
+header img {width:56px;height:56px;border-radius:10px;padding:6px;background:#0d0f1a;}
+.header-center h1 {margin:0;font-size:26px;font-weight:800;letter-spacing:0.4px;color:#fff;}
+nav {display:flex;gap:14px;align-items:center;}
+nav a {
+color:#fff;padding:8px 14px;border-radius:999px;background: rgba(255,255,255,0.08);
+font-weight:700;text-decoration:none;font-size:0.95rem;
+}
+nav a:hover {transform: translateY(-3px);background: rgba(255,255,255,0.16);}
+.container {width:95%;max-width:1180px;margin:0 auto;}
+
+/* --------------------
+Notes CONTAINER (Stable Layout)
+-------------------- */
+.notes-container {
+display: flex;
+flex-wrap: wrap;
+gap: 22px;
+justify-content: center;
+width: 100%;
+
+transform-style: preserve-3d;
+perspective: 1000px;
+
+margin-top: 18px;
+padding-bottom: 40px;
+}
+
+/* NOTE card */
+.note-box {
+background-color: #FFC0CB;
+border: 1px solid rgba(0,0,0,0.15);
+box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+border-radius: 16px;
+
+position: relative;
+transform-origin: center top;
+
+/* CRITICAL: Bounce Entrance Animation (Tilt Removed) */
+animation: noteSwing 2.2s cubic-bezier(.25, 1.2, .8, 1.2) forwards;
+
+width: 260px;
+
+/* FINAL HEIGHT FIX */
+min-height: 100px;
+max-height: 100px;
+overflow: hidden;
+transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+
+padding: 20px;
+color: #1b1b1b;
+cursor: pointer;
+z-index: 10;
+}
+
+.note-box:hover {
+transform: translateY(-10px) scale(1.03); /* Removed tilt */
+box-shadow: 0 14px 35px rgba(0,0,0,0.25);
+z-index: 20;
+}
+
+/* 🌟 Expanded State (Smoothly increases max-height AND width) */
+.note-box.expanded {
+max-height: 600px;
+width: 520px;
+z-index: 30;
+}
+
+/* title - Dark for readability */
+.note-title {
+color: #1b1b1b;
+font-size:1.18rem;
+font-weight:800;
+margin-bottom:10px;
+text-align:left;
+word-break: break-word;
+width: 100%;
+}
+
+/* tags area (Dark for contrast) */
+.note-tags {display:flex;gap:8px;flex-wrap:wrap;margin:8px 0;}
+.tag {
+background-color: #36454F;
+color: #ffffff;
+font-weight: 700;
+box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+border-radius: 999px;
+padding: 6px 10px;
+border: 1px solid rgba(255,255,255,0.04);
+animation: tagPop .45s ease both;
+}
+.tag-remove {color:#ffffff;font-weight:900;text-decoration:none;padding-left:6px;}
+.tag-remove:hover {color:#fff;transform: rotate(6deg);}
+
+/* add-tag area */
+.note-addtag {display:flex;gap:8px;align-items:center;justify-content:flex-end;margin-top:10px;}
+.addtag-btn {
+padding:8px 14px;border-radius:10px;border:none;cursor:pointer;
+background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+color:#1b1b1b;
+font-weight:800;font-size:0.95rem;
+}
+.addtag-btn:hover {transform: translateY(-3px);background: linear-gradient(90deg, var(--accent2), var(--accent1));color:#fff;}
+
+/* hidden inlined tag form */
+.tag-form {
+display:none;width:100%;margin-top:10px;padding:12px;border-radius:10px;
+background: linear-gradient(180deg, rgba(12,14,24,0.75), rgba(22,24,40,0.75));
+border:1px solid rgba(255,255,255,0.02);
+}
+.tag-form.active {display:block;}
+
+/* tag input/button styling */
+.tag-form input {width:100%;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background: rgba(255,255,255,0.02);color:#eaf3ff;}
+.tag-btn-group {display:flex;gap:8px;justify-content:flex-end;margin-top:8px;}
+.submit-tag-btn {padding:8px 12px;border-radius:8px;border:none;background: linear-gradient(90deg, var(--accent2), var(--accent1));color:#fff;}
+.cancel-tag-btn {padding:8px 12px;border-radius:8px;border:none;background: rgba(255,255,255,0.03);color:#d9e4ff;}
+
+/* 🌟 Content Panel Styling (When expanded) */
+.note-box .note-content {
+/* Visibility transition */
+max-height: 0;
+opacity: 0;
+overflow: hidden;
+transition: all 0.4s ease;
+
+/* Content Styling */
+padding: 15px;
+margin-top: 10px;
+border-radius: 10px;
+background: rgba(255, 255, 255, 0.4);
+box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.note-box.expanded .note-content {
+max-height: 400px;
+opacity: 1;
+}
+
+/* expanded note actions visibility */
+.note-box .note-actions {
+display: flex;
+justify-content: space-between;
+margin-top: 10px;
+opacity: 0;
+transform: translateY(-8px);
+transition: all 0.4s ease;
+}
+.note-box.expanded .note-actions {
+opacity: 1;
+transform: translateY(0);
+}
+
+/* --------------------
+Form containers (Add/Update) 🌟 DARK FORM STYLES 🌟
+-------------------- */
+.add-note-container, .update-note-container {
+width:95%;
+max-width:820px;
+margin:36px auto;
+padding:28px;
+border-radius:12px;
+
+/* RESTORED DARK GRADIENT BACKGROUND */
+background: linear-gradient(180deg, #141428, #1a1d37);
+
+border:1px solid rgba(255,255,255,0.02);
+box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+transition: transform .28s ease, box-shadow .28s ease;
+}
+.add-note-container:hover, .update-note-container:hover {transform: translateY(-6px) scale(1.01);}
+
+/* page title */
+.page-title {text-align:center;font-size:1.8rem;color:#f1eaff;margin-bottom:14px;font-weight:800;}
+
+/* form groups — spacing and layout for labels/inputs */
+.form-group {display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+.form-group label {color:var(--muted);font-weight:700;font-size:1.05rem;} /* Label size increased */
+input[type="text"], textarea, select {
+width:100%;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background: rgba(255,255,255,0.02);color:#eaf3ff;font-size:1.05rem; /* Input size increased */
+}
+textarea {min-height:120px;resize:vertical;}
+
+/* form buttons */
+.btn-submit {width:100%;padding:12px;border-radius:12px;border:none;background: linear-gradient(90deg,var(--accent1),var(--accent2));color:#fff;font-weight:800;}
+.btn-cancel {display:inline-block;padding:10px 12px;margin-top:8px;color:#d9e4ff;background: transparent;border-radius:8px;}
+
+
+/* --------------------
+Signin / Signup centered style 🌟 BRIGHT AUTH STYLES SYNCHRONIZED TO HTML CLASSES 🌟
+-------------------- */
+/* Targets the main container wrapper (body) for Sign In/Sign Up pages */
+.signin-container, .signup {
+display: flex;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
+background: linear-gradient(160deg, #d0bfff, #aee1f9); /* Unique background */
+animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Targets the box inside the container (uses signin-box and form[signup]) */
+.signin-box, .signup form {
+/* Styles applied to the sign-in box and the form element inside signup */
+background: linear-gradient(135deg, #e5d9fa, #b9f3fc); /* Unique box gradient */
+padding: 60px 70px;
+border-radius: 22px;
+box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+text-align: center;
+width: 420px;
+transform: translateY(30px);
+animation: bounceIn 1s ease forwards;
+}
+
+.signin-box h2, .signup h2 {
+font-size: 2rem;
+color: #3a0ca3;
+margin-bottom: 25px;
+letter-spacing: 1px;
+}
+
+.signin-box .tagline, .signup .tagline { /* Tagline style added for clarity */
+font-size: 1.05rem;
+color: #555;
+margin-bottom: 20px;
+}
+
+.signin-box label, .signup label {
+font-size: 1.1rem; /* Label size increased */
+font-weight: 600;
+color: #333;
+}
+
+.signin-box input, .signup input {
+width: 100%;
+padding: 14px;
+margin-bottom: 18px;
+border-radius: 10px;
+border: none;
+outline: none;
+font-size: 1.05rem; /* Input size increased */
+background: #fff;
+box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+transition: all 0.3s ease;
+}
+
+.signin-box button, .signup button {
+background: linear-gradient(135deg, #845ec2, #00c9a7);
+border: none;
+color: #fff;
+padding: 14px 22px;
+border-radius: 12px;
+cursor: pointer;
+font-size: 1.1rem;
+font-weight: 600;
+transition: 0.3s;
+}
+
+.signin-box p, .signup p {
+margin-top: 20px;
+font-size: 0.95rem;
+color: #333;
+}
+
+.signin-box a, .signup a {
+color: #3a0ca3;
+font-weight: 600;
+text-decoration: none;
+}
+/* ... rest of auth styles and animations retained ... */
+
+
+/* --------------------
+Footer (Sticky to bottom)
+-------------------- */
+footer {
+width:100%;padding:14px 18px;text-align:center;color:#fff;
+background: #36454F;
+box-shadow: 0 -6px 20px rgba(0,0,0,0.35);
+margin-top:auto;
+}
+
+/* --------------------
+ANIMATIONS & CORNER PLACEMENT (TILT REMOVED)
+-------------------- */
+
+/* 1. Dramatic Bounce Entrance (2.2s duration) - TILT REMOVED */
+@keyframes noteSwing {
+0% {
+transform: translateY(-800px); /* Start far above */
+opacity: 0;
+}
+40% {
+transform: translateY(-50px); /* Overshoot down */
+opacity: 1;
+}
+70% {
+transform: translateY(0);
+}
+90% {
+transform: translateY(-3px); /* Gentle bounce up */
+}
+100% {
+transform: translateY(0); /* Settle neutral */
+}
+}
+
+/* 2. Floating Keyframes (TILT REMOVED - ONLY UP/DOWN) */
+@keyframes floatUpDown { /* New single keyframe for floating */
+0%, 100% {transform: translateY(0);}
+50% {transform: translateY(-8px);}
+}
+
+/* Apply new floating keyframe to all corners */
+.corner-top-left.floating,
+.corner-top-right.floating,
+.corner-bottom-left.floating,
+.corner-bottom-right.floating {
+animation: floatUpDown 5s ease-in-out infinite;
+}
+
+/* Other Animations (Retained) */
+body {animation: pageFade .6s ease both;}
+@keyframes pageFade {from {opacity:0;transform: translateY(6px)} to {opacity:1;transform: translateY(0)}}
+.tag {animation: tagPop .45s ease both;}
+@keyframes tagPop {0% {transform: scale(.68);opacity:0} 80% {transform: scale(1.06);opacity:1} 100% {transform: scale(1)}}
+
+/* --------------------
+Responsive
+-------------------- */
+@media (max-width:900px) {
+/* Allow natural height expansion and full width for mobile view */
+.note-box.expanded {
+width: 90% !important;
+height: auto !important;
+max-height: 1000px;
+}
+.note-box {width: 90% !important;}
+header {padding:12px 14px;}
+.header-center h1 {font-size:20px;}
+.signin-box, .signup {width:92%;padding:20px;}
+}

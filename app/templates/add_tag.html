@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Add Tag{% endblock %}
+
+{% block content %}
+<div class="add-tag-container">
+  <h2 class="page-title">➕ Add Tag to "{{ note.note_title }}"</h2>
+
+  <form method="POST" action="{{ url_for('note.add_tag', note_id=note.note_id) }}" class="tag-form">
+    <div class="form-group">
+      <label for="tag_name">Tag Name:</label>
+      <input
+        type="text"
+        id="tag_name"
+        name="tag_name"
+        placeholder="Enter tag name (e.g. Study, Work)"
+        required
+      />
+    </div>
+
+    <button type="submit" class="btn-submit">Add Tag</button>
+    <a href="{{ url_for('note.home') }}" class="btn-cancel">← Back</a>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}
+Sign In
+{% endblock %}
+
+{% block content %}
+<div class="signin-container">
+  <div class="signin-box">
+    <h2>Welcome Back 👋</h2>
+    <p class="tagline">Log in to continue your journey</p>
+
+    <form action="{{ url_for('auth.signin') }}" method="post">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+      <button type="submit">Sign In</button>
+
+      <div class="extra-links">
+        <p>Don't have an account? <a href="{{ url_for('auth.signup') }}">Create one</a></p>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="notes-container">
+    {% for note in notes %}
+        <div class="note-box" data-note-id="{{ note.note_id }}">
+            
+            <div class="note-header">
+                <h3 class="note-title">{{ note.note_title }}</h3>
+            </div>
+
+            <!-- Existing Tags -->
+            <div class="note-tags">
+                {% for tag in note.tags %}
+                    <span class="tag">
+                        {{ tag.tag_name }}
+                        <a href="{{ url_for('note.delete_tag', note_id=note.note_id, tag_id=tag.tag_id) }}" 
+                           class="tag-remove">×</a>
+                    </span>
+                {% endfor %}
+            </div>
+
+            <!-- Note Content -->
+            <div class="note-content">
+                <p>{{ note.note_content }}</p>
+
+                <div class="note-actions">
+                    <a href="{{ url_for('note.update_note', note_id=note.note_id) }}" class="update-btn">📝 Update</a>
+                    <a href="{{ url_for('note.delete_note', note_id=note.note_id) }}" 
+                       class="delete-btn" 
+                       onclick="return confirm('Delete this note?');">🗑️ Delete</a>
+                </div>
+            </div>
+
+            <!-- Add Tag Section -->
+            <div class="note-addtag">
+                <button class="addtag-btn" onclick="toggleTagForm('{{ note.note_id }}')">➕ Add Tag</button>
+
+                <!-- Hidden Add Tag Form -->
+                <form action="{{ url_for('note.add_tag', note_id=note.note_id) }}" 
+                      method="POST" 
+                      class="tag-form" 
+                      id="tag-form-{{ note.note_id }}">
+                    <input type="text" name="tag_name" placeholder="Enter tag name" required>
+                    <button type="submit" class="submit-tag-btn" style="margin-top: 10px;">Add</button>
+                    <button type="button" class="cancel-tag-btn" style="margin-top: 10px;"      onclick="toggleTagForm('{{ note.note_id }}')">Cancel</button>
+                </form>
+            </div>
+
+        </div>
+    {% endfor %}
+</div>
+
+<!-- JS -->
+
+
+
+
+{% endblock %}
