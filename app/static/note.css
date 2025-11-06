@@ -1,7 +1,7 @@
 /* =========================
-Theme A — Calmer Cotton Candy (Violet + Blue)
-Full site CSS (all pages)
-FINAL VERSION: Content-Aware Height, Stable Layout, Smooth Animations, Fixed Form Sizing
+   Theme A — Calmer Cotton Candy (Violet + Blue)
+   Full site CSS (all pages)
+   FINAL VERSION: Stable Layout, Persistent Float-Tilt, Dramatic Swing
 ========================= */
 
 /* Reset & base */
@@ -96,7 +96,7 @@ border-radius: 16px;
 position: relative;
 transform-origin: center top;
 
-/* CRITICAL: Bounce Entrance Animation (Tilt Removed) */
+/* CRITICAL: Bounce Entrance Animation */
 animation: noteSwing 2.2s cubic-bezier(.25, 1.2, .8, 1.2) forwards;
 
 width: 260px;
@@ -105,7 +105,8 @@ width: 260px;
 min-height: 100px;
 max-height: 100px;
 overflow: hidden;
-transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+/* 🌟 Updated transition for smooth hover/pop-out */
+transition: all 0.3s ease-out, box-shadow 0.3s ease-out;
 
 padding: 20px;
 color: #1b1b1b;
@@ -114,8 +115,9 @@ z-index: 10;
 }
 
 .note-box:hover {
-transform: translateY(-10px) scale(1.03); /* Removed tilt */
-box-shadow: 0 14px 35px rgba(0,0,0,0.25);
+/* 💥 POP-OUT EFFECT IMPLEMENTED 💥 */
+transform: translateY(-8px) scale(1.03); /* Lifts and slightly enlarges the card */
+box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3); /* Deeper shadow for depth */
 z-index: 20;
 }
 
@@ -279,7 +281,7 @@ margin-bottom: 25px;
 letter-spacing: 1px;
 }
 
-.signin-box .tagline, .signup .tagline { /* Tagline style added for clarity */
+.signin-box .tagline, .signup .tagline { 
 font-size: 1.05rem;
 color: #555;
 margin-bottom: 20px;
@@ -302,7 +304,8 @@ font-size: 1.05rem; /* Input size increased */
 background: #fff;
 box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
 transition: all 0.3s ease;
-color: #000000 !important; /* Force text color to black */}
+color: #000000 !important; /* Force text color to black */
+}
 
 .signin-box button, .signup button {
 background: linear-gradient(135deg, #845ec2, #00c9a7);
@@ -316,6 +319,11 @@ font-weight: 600;
 transition: 0.3s;
 }
 
+.signin-box button:hover, .signup button:hover {
+transform: translateY(-3px);
+box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+}
+
 .signin-box p, .signup p {
 margin-top: 20px;
 font-size: 0.95rem;
@@ -327,7 +335,9 @@ color: #3a0ca3;
 font-weight: 600;
 text-decoration: none;
 }
-/* ... rest of auth styles and animations retained ... */
+.signin-box a:hover, .signup a:hover {
+text-decoration: underline;
+}
 
 
 /* --------------------
@@ -341,37 +351,42 @@ margin-top:auto;
 }
 
 /* --------------------
-ANIMATIONS & CORNER PLACEMENT (TILT REMOVED)
+ANIMATIONS & CORNER PLACEMENT (FINAL)
 -------------------- */
 
-/* 1. Dramatic Bounce Entrance (2.2s duration) - TILT REMOVED */
+/* CRITICAL: Base corner classes must be empty of static transform */
+.corner-top-left, .corner-top-right, .corner-bottom-left, .corner-bottom-right {
+/* NO static transform here! */
+}
+
+/* 1. Dramatic Swing Entrance (2.2s duration) */
 @keyframes noteSwing {
 0% {
-transform: translateY(-800px); /* Start far above */
+transform: translateY(-800px) rotateZ(-30deg) rotateX(70deg);
 opacity: 0;
 }
 40% {
-transform: translateY(-50px); /* Overshoot down */
+transform: translateY(-50px) rotateZ(15deg) rotateX(0deg);
 opacity: 1;
 }
 70% {
-transform: translateY(0);
+transform: translateY(0) rotateZ(-10deg);
 }
 90% {
-transform: translateY(-3px); /* Gentle bounce up */
+transform: translateY(0) rotateZ(5deg);
 }
 100% {
-transform: translateY(0); /* Settle neutral */
+transform: translateY(0) rotateZ(0deg); /* Settle neutral */
 }
 }
 
-/* 2. Floating Keyframes (TILT REMOVED - ONLY UP/DOWN) */
-@keyframes floatUpDown { /* New single keyframe for floating */
+/* 2. Floating Keyframes (TILT REMOVED) */
+@keyframes floatUpDown {
 0%, 100% {transform: translateY(0);}
 50% {transform: translateY(-8px);}
 }
 
-/* Apply new floating keyframe to all corners */
+/* Apply floating keyframe to all corners via the .floating class */
 .corner-top-left.floating,
 .corner-top-right.floating,
 .corner-bottom-left.floating,
@@ -400,3 +415,4 @@ header {padding:12px 14px;}
 .header-center h1 {font-size:20px;}
 .signin-box, .signup {width:92%;padding:20px;}
 }
+/* This command looks fine now */
