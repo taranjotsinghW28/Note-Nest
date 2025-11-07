@@ -358,10 +358,6 @@ color: white;
 ANIMATIONS & CORNER PLACEMENT (FINAL)
 -------------------- */
 
-/* CRITICAL: Base corner classes must be empty of static transform */
-.corner-top-left, .corner-top-right, .corner-bottom-left, .corner-bottom-right {
-/* NO static transform here! */
-}
 
 /* 1. Dramatic Swing Entrance (2.2s duration) */
 @keyframes noteSwing {
