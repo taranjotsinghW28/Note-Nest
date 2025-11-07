@@ -1,13 +1,15 @@
 from flask import render_template, redirect, url_for, flash, request, Blueprint
 from app.models import User, Note, Tag, db
 from flask_login import login_required, current_user
+from sqlalchemy.orm import joinedload # Recommended for efficient data loading
 
 note_bp = Blueprint("note", __name__)
 
 @note_bp.route("/")
 @login_required
 def home():
-    # Show only current user's notes
+    # Show only current user's notes, optimizing the query to load tags efficiently
+    # (Optional, but good practice: notes = Note.query.filter_by(author=current_user).options(joinedload(Note.tags)).all())
     notes = Note.query.filter_by(author=current_user).all()
     return render_template("home.html", notes=notes)
 
@@ -34,16 +36,35 @@ def add_note():
 def add_tag(note_id):
     note = Note.query.get_or_404(note_id)
     name = request.form.get("tag_name")
-
+    
+    # 1. Find existing tag or create a new one
     tag = Tag.query.filter_by(tag_name=name).first()
+    
     if not tag:
+        # Tag does not exist: create it
         tag = Tag(tag_name=name)
         db.session.add(tag)
+        
+        # 🌟 CRITICAL FIX: Commit immediately to finalize the tag_id for the M2M link 🌟
+        try:
+            db.session.commit() 
+            flash(f"New Tag '{name}' created!")
+        except Exception:
+            db.session.rollback()
+            flash("Error creating tag. Please try again.")
+            return redirect(url_for("note.home"))
 
-    note.tags.append(tag)
-    db.session.commit()
+    # 2. Link the note and the tag (now that we know the tag has a finalized ID)
+    if tag not in note.tags:
+        note.tags.append(tag)
+        db.session.commit() # Commit the relationship change
+        flash(f"Tag '{name}' added successfully to note!")
+    else:
+        # If the tag was already linked
+        flash(f"Tag '{name}' was already on this note.")
 
-    flash("Tag added successfully!")
+
+    # 3. Redirect to home to force the page to re-query and re-render the template
     return redirect(url_for("note.home"))
 
 
