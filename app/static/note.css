@@ -18,7 +18,9 @@ color: #1b1b1b;
 /* Layout for full height and sticky footer */
 body {
 display:flex;
-flex-direction:column; /* Makes footer stick to the bottom */
+flex-direction:column;
+background: linear-gradient(135deg, #e0eafc, #cfdef3);
+color: #222; /* Makes footer stick to the bottom */
 }
 main {
 flex:1; /* Allows main content to grow and push footer down */
@@ -52,11 +54,11 @@ align-items:center;
 justify-content:space-between;
 gap:16px;
 padding:14px 28px;
-background: #F77E86;
-color:#fff;
 box-shadow: 0 6px 22px rgba(0,0,0,0.25);
 border-bottom-left-radius: 10px;
 border-bottom-right-radius:10px;
+background: linear-gradient(135deg, #1f1c2c, #2b5876);
+color: white;
 }
 .head {display:flex;align-items:center;gap:14px;}
 header img {width:56px;height:56px;border-radius:10px;padding:6px;background:#0d0f1a;}
@@ -345,10 +347,11 @@ text-decoration: underline;
 Footer (Sticky to bottom)
 -------------------- */
 footer {
-width:100%;padding:14px 18px;text-align:center;color:#fff;
-background: #36454F;
+width:100%;padding:14px 18px;text-align:center;
 box-shadow: 0 -6px 20px rgba(0,0,0,0.35);
 margin-top:auto;
+  background: linear-gradient(135deg, #1f1c2c, #2b5876);
+  color: white;
 }
 
 /* --------------------
