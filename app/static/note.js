@@ -5,7 +5,7 @@ const FUN_COLORS = [
     '#D8BFD8', // Lavender
     '#FAFAD2', // Soft Yellow
     '#FFA07A', // Light Coral
-    '#ADD8E6'  // Light Sky Blue
+    '#ADD8E6'  // Light Sky Blue
 ];
 
 // These classes apply the TILT via CSS keyframes now
@@ -54,7 +54,10 @@ function initializeNoteStyles() {
     });
 }
 
-// 🌟 NEW FUNCTION: Stops the continuous floating animation on hover 🌟
+/**
+ * Fixes the CSS conflict: Stops the continuous floating animation on hover 
+ * and resumes it on mouse leave.
+ */
 function initializeHoverFix() {
     const notes = document.querySelectorAll('.note-box');
     
@@ -62,29 +65,45 @@ function initializeHoverFix() {
         // Mouse Enter: PAUSE the continuous floating animation
         note.addEventListener('mouseenter', () => {
             note.classList.remove('floating');
-            
-            // OPTIONAL: Manually apply the pop-out transform if CSS hover is slow
-            // note.style.transform = 'translateY(-8px) scale(1.03)';
         });
         
         // Mouse Leave: RESUME the continuous floating animation
         note.addEventListener('mouseleave', () => {
             note.classList.add('floating');
-            
-            // OPTIONAL: Clear the manual transform if used above
-            // note.style.transform = ''; 
         });
     });
 }
+
+/**
+ * Applies a subtle scale/shadow effect when an authentication input field is focused.
+ */
+function initializeInputFocusPop() {
+    // Select all inputs inside the main forms for consistency
+    const inputs = document.querySelectorAll('.signin-box input, .signup input');
+
+    inputs.forEach(input => {
+        // Apply 'input-focus-pop' class when field gets focus
+        input.addEventListener('focus', () => {
+            input.classList.add('input-focus-pop');
+        });
+
+        // Remove class when focus is lost
+        input.addEventListener('blur', () => {
+            input.classList.remove('input-focus-pop');
+        });
+    });
+}
+
 
 // ----------------------------------------------------
 // --- Core DOM Loading and Event Handlers ---
 // ----------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", () => {
-    // 🌟 Initialize the new note styles/animations
+    // 🌟 INITIALIZATION FUNCTIONS 🌟
     initializeNoteStyles(); 
-    initializeHoverFix(); // 🌟 NEW CALL TO FIX HOVER CONFLICT 🌟
+    initializeHoverFix(); 
+    initializeInputFocusPop(); // 🌟 NEW CALL FOR FORM ANIMATION 🌟
     
     const container = document.querySelector(".notes-container");
     if (!container) {
@@ -139,9 +158,12 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// Tilt effect for Add/Update Note containers (Original Code)
+// Tilt effect for Add/Update Note containers (Includes Auth Boxes)
 document.addEventListener("DOMContentLoaded", () => {
-    const tiltBoxes = document.querySelectorAll(".add-note-container, .update-note-container");
+    // 🌟 Updated selector to include sign-in/up boxes for the tilt effect 🌟
+    const tiltBoxes = document.querySelectorAll(
+        ".add-note-container, .update-note-container, .signin-box, .signup form"
+    );
     tiltBoxes.forEach(box => {
         box.addEventListener("mousemove", (e) => {
             const rect = box.getBoundingClientRect();

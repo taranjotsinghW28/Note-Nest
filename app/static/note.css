@@ -19,8 +19,9 @@ color: #1b1b1b;
 body {
 display:flex;
 flex-direction:column;
+/* Theme Background */
 background: linear-gradient(135deg, #e0eafc, #cfdef3);
-color: #222; /* Makes footer stick to the bottom */
+color: #222; 
 }
 main {
 flex:1; /* Allows main content to grow and push footer down */
@@ -45,7 +46,7 @@ align-items:center;
 }
 
 /* --------------------
-Header (Unchanged)
+Header
 -------------------- */
 header {
 width:100%;
@@ -81,7 +82,6 @@ gap: 22px;
 justify-content: center;
 width: 100%;
 
-/* Needed for the 3D rotation/swing */
 transform-style: preserve-3d;
 perspective: 1000px;
 
@@ -350,8 +350,8 @@ footer {
 width:100%;padding:14px 18px;text-align:center;
 box-shadow: 0 -6px 20px rgba(0,0,0,0.35);
 margin-top:auto;
-  background: linear-gradient(135deg, #1f1c2c, #2b5876);
-  color: white;
+background: linear-gradient(135deg, #1f1c2c, #2b5876);
+color: white;
 }
 
 /* --------------------
@@ -418,4 +418,38 @@ max-height: 1000px;
 header {padding:12px 14px;}
 .header-center h1 {font-size:20px;}
 .signin-box, .signup {width:92%;padding:20px;}
+}
+
+
+/* Inside .auth-box input */
+.auth-box input {
+/* ... existing input styles ... */
+box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+/* 🌟 Add Transition 🌟 */
+transition: all 0.3s ease; 
+}
+
+/* Inside .auth-box input:focus */
+.auth-box input:focus {
+transform: scale(1.01); /* Reduced scale slightly */
+/* 🌟 New Glowing Border Effect 🌟 */
+box-shadow: 0 0 0 2px #fff, 0 0 10px var(--accent2); /* White inner ring, blue outer glow */
+}
+
+/* Inside .auth-box button */
+.auth-box button {
+/* ... existing button styles ... */
+transition: 0.3s ease, transform 0.1s; /* Add quick transform transition */
+}
+
+/* 🌟 New Squish Effect 🌟 */
+.auth-box button:active {
+transform: scale(0.98); 
+opacity: 0.9;
+}
+
+
+.input-focus-pop {
+transform: scale(1.01); /* Slightly larger */
+box-shadow: 0 0 15px rgba(123, 92, 255, 0.4); /* Stronger shadow */
 }
